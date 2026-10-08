@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiasBreaker AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+    body { background-color: #f8fafc; font-family: 'Inter', sans-serif; color: #1e293b; }
+    .navbar { background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+    .card { border: none; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: 0.3s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+    .text-bull { color: #059669; font-weight: 700; }
+    .text-bear { color: #dc2626; font-weight: 700; }
+    .badge-verdict { font-size: 0.85rem; padding: 6px 14px; border-radius: 6px; font-weight: 700; }
+    .btn-telegram { background-color: #229ED9; color: white; font-weight: 600; border-radius: 8px; padding: 6px 16px; transition: 0.3s; }
+    .btn-telegram:hover { background-color: #1b85b8; color: white; }
+    .model-tag { font-size: 0.75rem; background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="#">BiasBreaker AI</a>
+
+    <div class="d-flex align-items-center gap-3">
+      <span class="model-tag d-none d-lg-inline-block">
+        <i class="bi bi-cpu-fill text-info me-1"></i> Local LLM: llama3.1:8b-instruct-q4_K_M
+      </span>
+      <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-semibold d-none md-inline-block">Engine Active</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="container" style="margin-top: 100px; margin-bottom: 60px;">
+
+  <!-- KONDISI JIKA BELUM ADA DATA (ENGINE BELUM DIJALANKAN) -->
+  <div class="row" th:if="${stocks == null or stocks.isEmpty()}">
+    <div class="col-12 text-center py-5">
+      <div class="card p-5 max-w-md mx-auto" style="max-width: 600px; margin: 0 auto;">
+        <div class="mb-4 text-info fs-1"><i class="bi bi-cpu"></i></div>
+        <h3 class="fw-bold mb-3">Terminal is Standby</h3>
+        <p class="text-muted mb-4">No stock data has been processed yet. Please execute option <b>1 (Real API)</b> or <b>2 (Mock Data)</b> in your Java terminal to generate institutional reports.</p>
+        <div class="alert alert-light border text-start font-monospace small text-secondary">
+          > Run BiasBreakerEngine.java in your IDE or Terminal.<br>
+          > Select Option 1 or 2 to generate automated quant insights.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KONDISI JIKA DATA ADA (MENAMPILKAN GRID LAPORAN SAHAM) -->
+  <div class="row g-4" th:if="${stocks != null and !stocks.isEmpty()}">
+    <div class="col-md-6 col-lg-4" th:each="stock : ${stocks}">
+      <div class="card h-100 p-4 d-flex flex-column justify-content-between">
+        <div>
+          <!-- Header Kartu -->
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h3 class="fw-bold mb-0" th:text="${stock.symbol}">BBCA</h3>
+              <small class="text-muted" th:text="${stock.companyName}">Bank Central Asia Tbk</small>
+            </div>
+            <!-- Badge Verdict -->
+            <div>
+              <span class="badge bg-success badge-verdict" th:if="${stock.verdictAI == 'BUY'}">BUY</span>
+              <span class="badge bg-warning badge-verdict text-dark" th:if="${stock.verdictAI == 'HOLD' or stock.verdictAI == 'WAIT & SEE'}">HOLD</span>
+              <span class="badge bg-danger badge-verdict" th:if="${stock.verdictAI == 'AVOID'}">AVOID</span>
+            </div>
+          </div>
+
+          <p class="text-secondary small mb-3" th:text="${stock.sector}">Banking Sector</p>
+          <hr class="text-muted opacity-25">
+
+          <!-- Metrik Ringkas -->
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <small class="text-muted d-block">Movement</small>
+              <span class="fw-bold" th:classappend="${#strings.startsWith(stock.priceChange, '-')} ? 'text-bear' : 'text-bull'" th:text="${stock.priceChange}">+2.5%</span>
+            </div>
+            <div class="col-6">
+              <small class="text-muted d-block">P/E Ratio</small>
+              <span class="fw-bold" th:text="${stock.peRatio}">15.4x</span>
+            </div>
+            <div class="col-6 mt-2">
+              <small class="text-muted d-block">Max Drawdown</small>
+              <span class="fw-bold text-bear" th:text="${stock.maxDrawdown}">-12.4%</span>
+            </div>
+            <div class="col-6 mt-2">
+              <small class="text-muted d-block">Latest Earnings</small>
+              <span class="fw-bold text-dark" style="font-size: 0.9rem;" th:text="${stock.lastEarnings}">Rp 1.2T</span>
+            </div>
+          </div>
+
+          <p class="text-muted small mt-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" th:text="${stock.verdictReason}">
+            AI decision rationale will appear here concisely...
+          </p>
+        </div>
+
+        <!-- Tombol Detail ke Report per Saham -->
+        <div class="mt-4 pt-3 border-top">
+          <a th:href="@{'/report/' + ${stock.symbol}}" class="btn btn-dark w-100 fw-semibold py-2" style="font-size: 0.9rem;">
+            View Full Report <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="text-center py-4 text-muted small border-top bg-white">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+    <span>&copy; 2026 BiasBreaker AI. All quantitative models powered by Ollama (llama3.1:8b-instruct-q4_K_M) & Sectors API.</span>
+    <a href="https://web.telegram.org/k/#@BinarylabsIdBot" target="_blank" class="text-decoration-none text-info fw-semibold">
+      <i class="bi bi-telegram me-1"></i> Get Real-time Alerts via Telegram
+    </a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

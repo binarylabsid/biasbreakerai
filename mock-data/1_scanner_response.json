@@ -1,0 +1,24 @@
+{
+  "top_losers" : {
+    "1d" : [ {
+      "symbol" : "VKTR.JK",
+      "name" : "PT VKTR Teknologi Mobilitas Tbk",
+      "price_change" : -0.197604790419162
+    }, {
+      "symbol" : "MDIA.JK",
+      "name" : "PT Intermedia Capital Tbk",
+      "price_change" : -0.0921052631578947
+    } ]
+  },
+  "top_gainers" : {
+    "1d" : [ {
+      "symbol" : "FORU.JK",
+      "name" : "Fortune Indonesia Tbk",
+      "price_change" : 0.161290322580645
+    }, {
+      "symbol" : "VICI.JK",
+      "name" : "PT Victoria Care Indonesia Tbk",
+      "price_change" : 0.144186046511628
+    } ]
+  }
+}

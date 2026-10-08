@@ -1,0 +1,21 @@
+[ {
+  "symbol" : "MDIA.JK",
+  "date" : "2026-03-31",
+  "revenue" : 141716426000,
+  "earnings" : -8280082000
+}, {
+  "symbol" : "MDIA.JK",
+  "date" : "2025-12-31",
+  "revenue" : 139962962000,
+  "earnings" : -36565745000
+}, {
+  "symbol" : "MDIA.JK",
+  "date" : "2025-09-30",
+  "revenue" : 157126496000,
+  "earnings" : 533787000
+}, {
+  "symbol" : "MDIA.JK",
+  "date" : "2025-06-30",
+  "revenue" : 141148856000,
+  "earnings" : 46912435000
+} ]

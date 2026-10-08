@@ -1,0 +1,42 @@
+{
+  "statistics" : {
+    "filtered_median_pe" : -4.42036934304046
+  },
+  "stability" : {
+    "weighted_max_drawdown" : -0.80088725325852
+  },
+  "growth" : {
+    "weighted_avg_growth_data" : {
+      "2018" : {
+        "avg_annual_revenue_growth" : null
+      },
+      "2019" : {
+        "avg_annual_revenue_growth" : -0.431123533039172
+      },
+      "2020" : {
+        "avg_annual_revenue_growth" : -0.316377829490869
+      },
+      "2021" : {
+        "avg_annual_revenue_growth" : 0.244947434825773
+      },
+      "2022" : {
+        "avg_annual_revenue_growth" : 1.02778781350239
+      },
+      "2023" : {
+        "avg_annual_revenue_growth" : 0.0699327910234545
+      },
+      "2024" : {
+        "avg_annual_revenue_growth" : 0.034439598259662
+      },
+      "2025" : {
+        "avg_annual_revenue_growth" : 0.0244800401529173
+      }
+    },
+    "growth_forecasts" : {
+      "2026" : {
+        "eps_growth" : 0.205874310304246,
+        "revenue_growth" : 0.13671468911863
+      }
+    }
+  }
+}
